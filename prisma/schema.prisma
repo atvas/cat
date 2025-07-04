@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// 用户模型：记录系统中的每个用户
+model User {
+  id           Int      @id @default(autoincrement())
+  userId       String   @unique
+  name         String?
+  email        String   @unique
+  password     String
+  refreshToken String? // 加密后的 refreshToken
+  createdAt    DateTime @default(now())
+
+  // 关系字段：
+  recordedTransactions Transaction[] @relation("RecordedTransactions")
+  groupMemberships     GroupMember[]
+  posts                Post[]
+}
+
+/// 花销记录模型：记录每一笔具体的支出
+model Transaction {
+  id          String    @id @default(uuid())
+  amount      Float // 花销金额
+  description String // 花销描述
+  date        DateTime  @default(now())
+  category    Category?
+
+  // 关系字段：
+  recorderId       String
+  recorder         User              @relation("RecordedTransactions", fields: [recorderId], references: [userId])
+  groupTransaction GroupTransaction?
+
+  @@index([recorderId])
+}
+
+/// 群组模型：用于管理多人共同花销的集合
+model Group {
+  id          String   @id @default(uuid())
+  name        String // 群组名称
+  description String? // 群组描述，可选
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // 关系字段：
+  members           GroupMember[]
+  groupTransactions GroupTransaction[]
+}
+
+/// 群组成员模型：连接 User 和 Group，实现多对多关系
+model GroupMember {
+  id       String          @id @default(uuid()) // 唯一标识符
+  groupId  String // 关联的群组ID
+  userId   String // 关联的用户ID
+  joinedAt DateTime        @default(now()) // 用户加入群组的时间
+  role     GroupMemberRole @default(MEMBER)
+
+  // 关系字段：
+  group Group @relation(fields: [groupId], references: [id])
+  user  User  @relation(fields: [userId], references: [userId])
+
+  @@unique([groupId, userId])
+  @@index([groupId])
+  @@index([userId])
+}
+
+/// 群组花销关联模型：连接 Transaction 和 Group
+model GroupTransaction {
+  id            String @id @default(uuid()) // 唯一标识符
+  transactionId String @unique
+  groupId       String
+
+  // 关系字段：
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+  group       Group       @relation(fields: [groupId], references: [id])
+
+  // 索引：为外键字段创建索引以提高查询效率
+  @@index([groupId])
+  @@index([transactionId])
+}
+
+/// 花销类别枚举：标准化花销类型
+enum Category {
+  FOOD // 餐饮
+  TRANSPORTATION // 交通
+  SHOPPING // 购物
+  ENTERTAINMENT // 娱乐
+  HOUSING // 住房
+  UTILITIES // 公用事业（水电煤）
+  HEALTH // 医疗健康
+  EDUCATION // 教育
+  OTHERS // 其他
+}
+
+enum GroupMemberRole {
+  MEMBER // 普通成员
+  ADMIN // 管理员
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String?
+  author    User?    @relation(fields: [authorId], references: [userId])
+}
