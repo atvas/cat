@@ -8,11 +8,11 @@ export declare class GroupsService {
     constructor(prisma: PrismaService, userService: UserService);
     private readonly userSelect;
     create(data: CreateGroupsDto): Prisma.Prisma__GroupClient<{
-        id: string;
         name: string;
+        id: string;
         createdAt: Date;
-        updatedAt: Date;
         description: string | null;
+        updatedAt: Date;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, Prisma.PrismaClientOptions>;
     findGroupById(id: string, userId?: string): Promise<{
         group: {
@@ -21,21 +21,21 @@ export declare class GroupsService {
                 groupTransactions: number;
             };
         } & {
-            id: string;
             name: string;
+            id: string;
             createdAt: Date;
-            updatedAt: Date;
             description: string | null;
+            updatedAt: Date;
         };
         totalAmount: number;
     }>;
     findGroupsTotalAmount(groupId: string): Promise<number>;
     findAllGroups(): Promise<{
-        id: string;
         name: string;
+        id: string;
         createdAt: Date;
-        updatedAt: Date;
         description: string | null;
+        updatedAt: Date;
     }[]>;
     addMembersToGroup(groupId: string, userId: string, role?: GroupMemberRole): Promise<{
         id: string;

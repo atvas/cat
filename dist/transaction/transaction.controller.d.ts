@@ -7,9 +7,9 @@ export declare class TransactionController {
     constructor(transactionService: TransactionService);
     createTransaction(createTransactionDto: CreateTransactionDto, user: JwtPayload): Promise<{
         recorder: {
+            name: string | null;
             id: number;
             userId: string;
-            name: string | null;
             email: string;
             password: string;
             refreshToken: string | null;
@@ -30,9 +30,9 @@ export declare class TransactionController {
     }>;
     findOneTransactions(user: JwtPayload, id: string): Promise<({
         recorder: {
+            name: string | null;
             id: number;
             userId: string;
-            name: string | null;
             email: string;
             password: string;
             refreshToken: string | null;
@@ -55,11 +55,11 @@ export declare class TransactionController {
         list: ({
             groupTransaction: ({
                 group: {
-                    id: string;
                     name: string;
+                    id: string;
                     createdAt: Date;
-                    updatedAt: Date;
                     description: string | null;
+                    updatedAt: Date;
                 };
             } & {
                 id: string;

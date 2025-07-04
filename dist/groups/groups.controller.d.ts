@@ -11,11 +11,11 @@ export declare class GroupsController {
                 groupTransactions: number;
             };
         } & {
-            id: string;
             name: string;
+            id: string;
             createdAt: Date;
-            updatedAt: Date;
             description: string | null;
+            updatedAt: Date;
         };
         totalAmount: number;
     }>;
@@ -26,11 +26,11 @@ export declare class GroupsController {
                 groupTransactions: number;
             };
         } & {
-            id: string;
             name: string;
+            id: string;
             createdAt: Date;
-            updatedAt: Date;
             description: string | null;
+            updatedAt: Date;
         };
         totalAmount: number;
     }>;

@@ -5,9 +5,9 @@ export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
     update(data: UpdateUserDto, user: JwtPayload): Promise<{
+        name: string | null;
         id: number;
         userId: string;
-        name: string | null;
         email: string;
         password: string;
         refreshToken: string | null;
@@ -28,13 +28,13 @@ export declare class UserController {
             role: import(".prisma/client").$Enums.GroupMemberRole;
         }[];
         posts: {
+            id: number;
+            createdAt: Date;
+            updatedAt: Date;
             title: string;
             content: string | null;
             published: boolean;
             authorId: string | null;
-            id: number;
-            createdAt: Date;
-            updatedAt: Date;
         }[];
         _count: {
             recordedTransactions: number;
@@ -43,9 +43,9 @@ export declare class UserController {
         };
     }>;
     findOne(user: JwtPayload): Promise<{
+        name: string | null;
         id: number;
         userId: string;
-        name: string | null;
         email: string;
         password: string;
         refreshToken: string | null;
@@ -66,13 +66,13 @@ export declare class UserController {
             role: import(".prisma/client").$Enums.GroupMemberRole;
         }[];
         posts: {
+            id: number;
+            createdAt: Date;
+            updatedAt: Date;
             title: string;
             content: string | null;
             published: boolean;
             authorId: string | null;
-            id: number;
-            createdAt: Date;
-            updatedAt: Date;
         }[];
         _count: {
             recordedTransactions: number;

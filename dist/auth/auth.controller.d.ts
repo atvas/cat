@@ -7,9 +7,9 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(dto: RegisterDto): Promise<{
         data: {
+            name: string | null;
             id: number;
             userId: string;
-            name: string | null;
             email: string;
             password: string;
             refreshToken: string | null;
@@ -30,13 +30,13 @@ export declare class AuthController {
                 role: import(".prisma/client").$Enums.GroupMemberRole;
             }[];
             posts: {
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
                 title: string;
                 content: string | null;
                 published: boolean;
                 authorId: string | null;
-                id: number;
-                createdAt: Date;
-                updatedAt: Date;
             }[];
             _count: {
                 recordedTransactions: number;

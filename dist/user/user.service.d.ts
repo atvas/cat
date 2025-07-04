@@ -5,9 +5,9 @@ export declare class UserService {
     constructor(prisma: PrismaService);
     private readonly userSelect;
     findOne(userId: string): Promise<{
+        name: string | null;
         id: number;
         userId: string;
-        name: string | null;
         email: string;
         password: string;
         refreshToken: string | null;
@@ -28,13 +28,13 @@ export declare class UserService {
             role: import(".prisma/client").$Enums.GroupMemberRole;
         }[];
         posts: {
+            id: number;
+            createdAt: Date;
+            updatedAt: Date;
             title: string;
             content: string | null;
             published: boolean;
             authorId: string | null;
-            id: number;
-            createdAt: Date;
-            updatedAt: Date;
         }[];
         _count: {
             recordedTransactions: number;
@@ -43,9 +43,9 @@ export declare class UserService {
         };
     }>;
     update(userId: string, data: UpdateUserDto): Promise<{
+        name: string | null;
         id: number;
         userId: string;
-        name: string | null;
         email: string;
         password: string;
         refreshToken: string | null;
@@ -66,13 +66,13 @@ export declare class UserService {
             role: import(".prisma/client").$Enums.GroupMemberRole;
         }[];
         posts: {
+            id: number;
+            createdAt: Date;
+            updatedAt: Date;
             title: string;
             content: string | null;
             published: boolean;
             authorId: string | null;
-            id: number;
-            createdAt: Date;
-            updatedAt: Date;
         }[];
         _count: {
             recordedTransactions: number;

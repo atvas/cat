@@ -6,9 +6,9 @@ export declare class TransactionService {
     private readonly transactionInclude;
     createTransaction(recorderId: string, createDto: CreateTransactionDto): Promise<{
         recorder: {
+            name: string | null;
             id: number;
             userId: string;
-            name: string | null;
             email: string;
             password: string;
             refreshToken: string | null;
@@ -29,9 +29,9 @@ export declare class TransactionService {
     }>;
     findOneTransactions(recorderId: string, id: string): Promise<({
         recorder: {
+            name: string | null;
             id: number;
             userId: string;
-            name: string | null;
             email: string;
             password: string;
             refreshToken: string | null;
@@ -54,11 +54,11 @@ export declare class TransactionService {
         list: ({
             groupTransaction: ({
                 group: {
-                    id: string;
                     name: string;
+                    id: string;
                     createdAt: Date;
-                    updatedAt: Date;
                     description: string | null;
+                    updatedAt: Date;
                 };
             } & {
                 id: string;
