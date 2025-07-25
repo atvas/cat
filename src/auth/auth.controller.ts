@@ -9,6 +9,10 @@ import { Response as ExpressResponse ,Request} from 'express';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * 注册
+   * @param dto
+   */
   @Post('register')
   async register(@Body() dto: RegisterDto) {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
@@ -23,6 +27,11 @@ export class AuthController {
   }
 
 
+  /**
+   * 登录
+   * @param dto
+   * @param res
+   */
   @Post('login')
   async login(@Body() dto: LoginDto,@Res({passthrough:true}) res : ExpressResponse) {
     const tokens = await this.authService.login(dto.email, dto.password);
@@ -37,6 +46,11 @@ export class AuthController {
     }
   }
 
+  /**
+   * 刷新token
+   * @param req
+   * @param res
+   */
   @Post('refresh')
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: ExpressResponse) {
     const refresh_token = req.cookies['refresh_token'];
@@ -50,6 +64,11 @@ export class AuthController {
     return { access_token: tokens.access_token };
   }
 
+  /**
+   * 退出登录
+   * @param req
+   * @param res
+   */
   @Post('logout')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: ExpressResponse) {
     const token = req.cookies['refresh_token'];

@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/main.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/main.js",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS"
+      ]
+    }
+  ],
+  "env": {
+    "DATABASE_URL": "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMDFKWkE0V0hDNFBKUDAwS1o1REdQQlRKOUgiLCJ0ZW5hbnRfaWQiOiIwYzQ2NWNmNDE5Mjk1NzY3ZWQxZGU1YTIyOGM1YzQ3OWUyNDc4Y2VlNjFmMmI5NTEwNmQ0ZWJhNGMyZjA5ZGRjIiwiaW50ZXJuYWxfc2VjcmV0IjoiNmQ5MTY4MjAtOTI3ZC00NWM5LWEyODUtNzM3ODJiMDEyNDZlIn0.A9bs1n-mB2UNM38-hgggYANvDEaR8nBGy_J-iuONJK0",
+    "JWT_SECRET": "0491e905",
+    "JWT_REFRESH_SECRET": "1850b659"
+  }
+}

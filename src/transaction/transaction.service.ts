@@ -3,6 +3,7 @@ import { PrismaService } from 'nestjs-prisma';
 import { CreateTransactionDto } from './dto/create-tranaction.dto';
 import { Prisma } from '@prisma/client';
 import { PaginationDto } from './dto/pagination.dto';
+import { SelectTransactionDto } from './dto/select-transaction.dto';
 
 @Injectable()
 export class TransactionService {
@@ -72,10 +73,10 @@ export class TransactionService {
   /**
    * 查询全部消费记录
    * @param recorderId
-   * @param page
-   * @param pageSize
+   * @param dto
    */
-  async findAllTransactions(recorderId: string,page:number,pageSize:number){
+  async findAllTransactions(recorderId: string,dto:SelectTransactionDto){
+    const page = +dto.page,pageSize = +dto.pageSize;
     const skip = (page - 1) * pageSize;
     const [list,total] = await Promise.all([
       this.prisma.transaction.findMany({
@@ -83,7 +84,14 @@ export class TransactionService {
         take: pageSize,
         orderBy: { id: 'desc' },
         where:{
-          recorderId:recorderId
+          recorderId:recorderId,
+          ...(dto.groupId && {
+            groupTransaction:{
+              group:{
+                id:dto.groupId
+              }
+            }
+          })
         },
         include:{
           groupTransaction:{
@@ -95,7 +103,14 @@ export class TransactionService {
       }),
       this.prisma.transaction.count({
         where:{
-          recorderId:recorderId
+          recorderId:recorderId,
+          ...(dto.groupId && {
+            groupTransaction:{
+              group:{
+                id:dto.groupId
+              }
+            }
+          })
         }
       })
     ])

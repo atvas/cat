@@ -9,6 +9,11 @@ import { GroupMemberRole } from '@prisma/client';
 export class GroupsController {
   constructor(private readonly groupService: GroupsService) {}
 
+  /**
+   * 创建群组
+   * @param user
+   * @param createDto
+   */
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(@User() user: JwtPayload,@Body() createDto: CreateGroupsDto){
@@ -17,12 +22,22 @@ export class GroupsController {
     return this.groupService.findGroupById(group.id)
   }
 
+  /**
+   * 查询群组信息
+   * @param groupId
+   * @param user
+   */
   @UseGuards(JwtAuthGuard)
   @Get(':groupId')
   async findOne(@Param('groupId') groupId:string,@User() user:JwtPayload){
     return this.groupService.findGroupById(groupId,user.userId)
   }
 
+  /**
+   * 加入群组
+   * @param groupId
+   * @param user
+   */
   @UseGuards(JwtAuthGuard)
   @Post(':groupId/members')
   async addGroupMember(@Param('groupId') groupId:string,@User() user:JwtPayload){
