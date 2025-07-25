@@ -7,9 +7,9 @@ export declare class AuthController {
     constructor(authService: AuthService);
     register(dto: RegisterDto): Promise<{
         data: {
-            name: string | null;
             id: number;
             userId: string;
+            name: string | null;
             email: string;
             password: string;
             refreshToken: string | null;
@@ -32,10 +32,10 @@ export declare class AuthController {
             posts: {
                 id: number;
                 createdAt: Date;
-                updatedAt: Date;
                 title: string;
                 content: string | null;
                 published: boolean;
+                updatedAt: Date;
                 authorId: string | null;
             }[];
             _count: {

@@ -65,7 +65,8 @@ let TransactionService = class TransactionService {
             include: this.transactionInclude
         });
     }
-    async findAllTransactions(recorderId, page, pageSize) {
+    async findAllTransactions(recorderId, dto) {
+        const page = +dto.page, pageSize = +dto.pageSize;
         const skip = (page - 1) * pageSize;
         const [list, total] = await Promise.all([
             this.prisma.transaction.findMany({
@@ -73,7 +74,14 @@ let TransactionService = class TransactionService {
                 take: pageSize,
                 orderBy: { id: 'desc' },
                 where: {
-                    recorderId: recorderId
+                    recorderId: recorderId,
+                    ...(dto.groupId && {
+                        groupTransaction: {
+                            group: {
+                                id: dto.groupId
+                            }
+                        }
+                    })
                 },
                 include: {
                     groupTransaction: {
@@ -85,7 +93,14 @@ let TransactionService = class TransactionService {
             }),
             this.prisma.transaction.count({
                 where: {
-                    recorderId: recorderId
+                    recorderId: recorderId,
+                    ...(dto.groupId && {
+                        groupTransaction: {
+                            group: {
+                                id: dto.groupId
+                            }
+                        }
+                    })
                 }
             })
         ]);

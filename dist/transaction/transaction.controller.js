@@ -18,7 +18,7 @@ const transaction_service_1 = require("./transaction.service");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const create_tranaction_dto_1 = require("./dto/create-tranaction.dto");
 const user_decorator_1 = require("../auth/user.decorator");
-const pagination_dto_1 = require("./dto/pagination.dto");
+const select_transaction_dto_1 = require("./dto/select-transaction.dto");
 let TransactionController = class TransactionController {
     transactionService;
     constructor(transactionService) {
@@ -30,8 +30,8 @@ let TransactionController = class TransactionController {
     async findOneTransactions(user, id) {
         return this.transactionService.findOneTransactions(user.userId, id);
     }
-    async findAllTransactions(user, { page, pageSize }) {
-        return this.transactionService.findAllTransactions(user.userId, +page, +pageSize);
+    async findAllTransactions(user, dto) {
+        return this.transactionService.findAllTransactions(user.userId, dto);
     }
 };
 exports.TransactionController = TransactionController;
@@ -59,7 +59,7 @@ __decorate([
     __param(0, (0, user_decorator_1.User)()),
     __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, pagination_dto_1.PaginationDto]),
+    __metadata("design:paramtypes", [Object, select_transaction_dto_1.SelectTransactionDto]),
     __metadata("design:returntype", Promise)
 ], TransactionController.prototype, "findAllTransactions", null);
 exports.TransactionController = TransactionController = __decorate([

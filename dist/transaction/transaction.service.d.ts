@@ -1,15 +1,16 @@
 import { PrismaService } from 'nestjs-prisma';
 import { CreateTransactionDto } from './dto/create-tranaction.dto';
+import { SelectTransactionDto } from './dto/select-transaction.dto';
 export declare class TransactionService {
     private prisma;
     constructor(prisma: PrismaService);
     private readonly transactionInclude;
     createTransaction(recorderId: string, createDto: CreateTransactionDto): Promise<{
         recorder: {
-            name: string | null;
             id: number;
             userId: string;
             email: string;
+            name: string | null;
             password: string;
             refreshToken: string | null;
             createdAt: Date;
@@ -29,10 +30,10 @@ export declare class TransactionService {
     }>;
     findOneTransactions(recorderId: string, id: string): Promise<({
         recorder: {
-            name: string | null;
             id: number;
             userId: string;
             email: string;
+            name: string | null;
             password: string;
             refreshToken: string | null;
             createdAt: Date;
@@ -50,14 +51,14 @@ export declare class TransactionService {
         category: import(".prisma/client").$Enums.Category | null;
         recorderId: string;
     }) | null>;
-    findAllTransactions(recorderId: string, page: number, pageSize: number): Promise<{
+    findAllTransactions(recorderId: string, dto: SelectTransactionDto): Promise<{
         list: ({
             groupTransaction: ({
                 group: {
-                    name: string;
                     id: string;
-                    createdAt: Date;
                     description: string | null;
+                    name: string;
+                    createdAt: Date;
                     updatedAt: Date;
                 };
             } & {
